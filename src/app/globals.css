@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Parallax Clean Base Colors */
+  --c-bg: #E3E1DC; /* Stone/Concrete */
+  --c-dark: #121212;
+  --c-accent: #374336; /* Deep Moss */
+  
+  /* AI Automation Style Elements */
+  --c-glass: rgba(255, 255, 255, 0.1);
+  --c-card: #f8f8f8; /* Offwhite modern card */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: #0A0A0A;
+    --c-dark: #F3F3F1;
+    --c-accent: #4a5c48;
+    --c-glass: rgba(255, 255, 255, 0.05);
+    --c-card: #1f1f1f;
+  }
+}
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-dark);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease;
+}
+
+/* Base Headings */
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display), sans-serif;
+}
+
+/* Utilitários Visuais (Aethereal + AI Animation) */
+.glass-panel {
+  background: var(--c-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* Custom Scrollbar for modern look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--c-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-accent);
+  border-radius: 4px;
+}
