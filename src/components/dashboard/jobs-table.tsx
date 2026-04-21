@@ -59,7 +59,6 @@ export function JobsTable({ vagas }: Props) {
                 <th className="pb-3 px-4 font-medium uppercase tracking-widest text-xs opacity-50">Vaga / Empresa</th>
                 <th className="pb-3 px-4 font-medium uppercase tracking-widest text-xs opacity-50 hidden md:table-cell">Local</th>
                 <th className="pb-3 px-4 font-medium uppercase tracking-widest text-xs opacity-50 hidden md:table-cell">Modalidade</th>
-                <th className="pb-3 px-4 font-medium uppercase tracking-widest text-xs opacity-50 hidden lg:table-cell">Salário</th>
                 <th className="pb-3 px-4 font-medium uppercase tracking-widest text-xs opacity-50 hidden lg:table-cell">Publicado</th>
                 <th className="pb-3 px-4 font-medium uppercase tracking-widest text-xs opacity-50 text-right">Ação</th>
               </tr>
@@ -89,11 +88,6 @@ export function JobsTable({ vagas }: Props) {
                           {vaga.postedAt}
                         </span>
                       )}
-                      {vaga.salary && vaga.salary !== "A Combinar" && (
-                        <span className="px-2 py-0.5 rounded-full border border-black/10 text-[10px] font-bold tracking-widest text-accent bg-black/5">
-                          {vaga.salary}
-                        </span>
-                      )}
                     </div>
                   </td>
                   <td className="py-4 px-4 hidden md:table-cell align-middle">
@@ -103,9 +97,6 @@ export function JobsTable({ vagas }: Props) {
                     <span className="px-3 py-1 rounded-full border border-black/20 text-[10px] uppercase font-bold tracking-widest text-dark bg-white/50 backdrop-blur-md">
                       {vaga.modality}
                     </span>
-                  </td>
-                  <td className="py-4 px-4 text-xs font-bold text-accent hidden lg:table-cell align-middle">
-                    {vaga.salary}
                   </td>
                   <td className="py-4 px-4 text-xs text-gray-400 hidden lg:table-cell align-middle">
                     {vaga.postedAt}
