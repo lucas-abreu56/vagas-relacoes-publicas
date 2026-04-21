@@ -1,6 +1,8 @@
 import { parseVagas } from "@/services/vagas.service";
 import { OverviewCards, DistributionChart, JobsTable } from "@/components/dashboard";
 
+export const revalidate = 0;
+
 // Server action prevents client execution of xlsx node module logic
 export default async function Page() {
   const data = await parseVagas();
