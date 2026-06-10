@@ -17,6 +17,9 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: 'Dashboard: Vagas RP Porto Alegre',
   description: 'Análise de dados interativa das vagas locais.',
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({

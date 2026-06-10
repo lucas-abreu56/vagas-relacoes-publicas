@@ -67,31 +67,31 @@ export function JobsTable({ vagas }: Props) {
               {currentVagas.map((vaga) => (
                 <tr key={vaga.id} className="border-b border-black/5 hover:bg-black/5 transition-colors group flex flex-col md:table-row py-4 md:py-0">
                   <td className="pb-4 md:py-4 px-4 block md:table-cell align-middle">
-                    <div className="font-semibold text-dark text-balance">{vaga.title}</div>
-                    <div className="text-xs text-gray-500 mt-1" title={vaga.company}>{vaga.company}</div>
-                    {vaga.description && (
+                    <div className="font-semibold text-dark text-balance">{vaga.job_title}</div>
+                    <div className="text-xs text-gray-500 mt-1" title={vaga.employer_name}>{vaga.employer_name}</div>
+                    {vaga.job_description && (
                       <p className="text-xs text-gray-400 mt-2 line-clamp-2 max-w-md">
-                        {vaga.description.slice(0, 140)}…
+                        {vaga.job_description.slice(0, 140)}…
                       </p>
                     )}
 
                     {/* Infos extras para mobile */}
                     <div className="mt-3 md:hidden flex gap-2 items-center flex-wrap">
                       <span className="px-2 py-0.5 rounded-full border border-black/20 text-[10px] uppercase font-bold tracking-widest text-dark bg-white/50 backdrop-blur-md">
-                        {vaga.location}
+                        {vaga.job_location}
                       </span>
                       <span className="px-2 py-0.5 rounded-full border border-black/20 text-[10px] uppercase font-bold tracking-widest text-dark bg-white/50 backdrop-blur-md">
                         {vaga.modality}
                       </span>
-                      {vaga.postedAt && (
+                      {vaga.job_posted_at && (
                         <span className="px-2 py-0.5 rounded-full border border-black/10 text-[10px] font-bold tracking-widest text-gray-500 bg-black/5">
-                          {vaga.postedAt}
+                          {vaga.job_posted_at}
                         </span>
                       )}
                     </div>
                   </td>
                   <td className="py-4 px-4 hidden md:table-cell align-middle">
-                    <span className="text-xs text-gray-500">{vaga.location}</span>
+                    <span className="text-xs text-gray-500">{vaga.job_location}</span>
                   </td>
                   <td className="py-4 px-4 hidden md:table-cell align-middle">
                     <span className="px-3 py-1 rounded-full border border-black/20 text-[10px] uppercase font-bold tracking-widest text-dark bg-white/50 backdrop-blur-md">
@@ -99,16 +99,16 @@ export function JobsTable({ vagas }: Props) {
                     </span>
                   </td>
                   <td className="py-4 px-4 text-xs text-gray-400 hidden lg:table-cell align-middle">
-                    {vaga.postedAt}
+                    {vaga.job_posted_at}
                   </td>
                   <td className="pt-2 md:py-4 px-4 block md:table-cell text-left md:text-right align-middle">
                     <a
-                      href={vaga.url}
+                      href={vaga.job_apply_link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex w-full md:w-auto justify-center items-center gap-2 bg-dark text-background px-4 py-3 md:py-2 rounded-full text-[10px] font-medium uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-xl shadow-black/10 hover:scale-105"
                     >
-                      Detalhes {vaga.url !== '#' && <ExternalLink className="w-3 h-3" />}
+                      Candidatar-se {vaga.job_apply_link !== '#' && <ExternalLink className="w-3 h-3" />}
                     </a>
                   </td>
                 </tr>

@@ -1,23 +1,25 @@
 export interface VagaRaw {
-  'Link da Vaga': string;
-  'Título da Vaga': string;
-  'Tipo da Vaga': string;
-  'Descrição': string;
-  'Local da Vaga': string;
-  'Empregador': string;
+  id: string;
+  job_title: string;
+  employer_name: string;
+  job_location: string;
+  job_employment_type: string;
+  job_description: string;
+  job_apply_link: string;
+  job_posted_at: string | null;
 }
 
 export interface VagaParsed {
   id: string;
-  title: string;
-  company: string;
-  type: string;
-  location: string;
+  job_title: string;
+  employer_name: string;
+  job_employment_type: string;
+  job_location: string;
   modality: 'Remoto' | 'Híbrido' | 'Presencial' | 'Não Especificado';
   salary: string;
-  description: string;
-  url: string;
-  postedAt: string | null;
+  job_description: string;
+  job_apply_link: string;
+  job_posted_at: string | null;
 }
 
 export interface DashboardData {

@@ -1,5 +1,4 @@
-import { supabase } from '@/lib/supabase';
-import type { VagaParsed, DashboardData } from '@/types/vagas';
+import type { VagaRaw, VagaParsed, DashboardData } from '@/types/vagas';
 
 const extractModality = (desc: string): VagaParsed['modality'] => {
   if (!desc) return 'Não Especificado';
@@ -25,51 +24,67 @@ const extractSalary = (desc: string): string => {
 
 export const parseVagas = async (): Promise<DashboardData | null> => {
   try {
-    const { data: rows, error } = await supabase
-      .from('vagas_oportunidades')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Supabase query error:', error.message);
+    const token = process.env.VITE_API_TOKEN_N8N;
+    if (!token) {
+      console.error('API Token VITE_API_TOKEN_N8N is not set in environment variables.');
       return null;
     }
+
+    const response = await fetch('https://n8n.lucasschwingel.com/webhook/vagas-relacoes-publicas', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      // Desabilita cache estático para sempre buscar dados novos, opcionalmente pode ser revalidado a cada X segundos
+      next: { revalidate: 60 }
+    });
+
+    if (!response.ok) {
+      console.error(`n8n API fetch error: ${response.status} ${response.statusText}`);
+      return null;
+    }
+
+    const rows: VagaRaw[] = await response.json();
 
     if (!rows || rows.length === 0) {
-      console.warn('No rows returned from Supabase.');
-      return null;
+      console.warn('No rows returned from n8n API.');
+      return {
+        vagas: [],
+        lastUpdatedAt: null,
+        kpis: {
+          total: 0,
+          modalitiesCount: {},
+          topEmployers: [],
+        },
+      };
     }
 
-    console.log(`Fetched ${rows.length} rows from Supabase.`);
+    console.log(`Fetched ${rows.length} rows from n8n API.`);
 
-    // Last inserted row = first item (ordered desc by created_at)
-    // Show created_at as UTC (no offset applied)
-    let lastUpdatedAt: string | null = null;
-    if (rows[0]?.created_at) {
-      const utcDate = new Date(rows[0].created_at);
-      lastUpdatedAt = utcDate.toLocaleString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZone: 'UTC',
-      }) + ' (UTC)';
-    }
+    const now = new Date();
+    const lastUpdatedAt = now.toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'America/Sao_Paulo',
+    });
 
     const vagas: VagaParsed[] = rows.map((row, index) => {
       const description = row.job_description || '';
       return {
         id: row.id ?? `vaga-${index}`,
-        title: row.job_title || 'Sem Título',
-        company: row.employer_name || 'Empresa Confidencial',
-        type: row.job_employment_type || 'Tempo Integral',
-        location: row.job_location || 'Não Informado',
+        job_title: row.job_title || 'Sem Título',
+        employer_name: row.employer_name || 'Empresa Confidencial',
+        job_employment_type: row.job_employment_type || 'Tempo Integral',
+        job_location: row.job_location || 'Não Informado',
         modality: extractModality(description),
         salary: extractSalary(description),
-        description,
-        url: row.job_apply_link || '#',
-        postedAt: row.job_posted_at || null,
+        job_description: description,
+        job_apply_link: row.job_apply_link || '#',
+        job_posted_at: row.job_posted_at || null,
       };
     });
 
@@ -80,7 +95,7 @@ export const parseVagas = async (): Promise<DashboardData | null> => {
     }, {} as Record<string, number>);
 
     const employerCounts = vagas.reduce((acc, vaga) => {
-      acc[vaga.company] = (acc[vaga.company] || 0) + 1;
+      acc[vaga.employer_name] = (acc[vaga.employer_name] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
