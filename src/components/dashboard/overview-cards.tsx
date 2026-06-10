@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Briefcase, Building2, MapPin } from "lucide-react";
+import { Briefcase, Building2 } from "lucide-react";
 import type { DashboardData } from "@/types/vagas";
 
 interface OverviewCardsProps {
@@ -10,8 +10,6 @@ export function OverviewCards({ kpis }: OverviewCardsProps) {
   if (!kpis) return null;
 
   const topEmployer = kpis.topEmployers?.[0]?.name || "N/A";
-
-  const topModality = Object.entries(kpis.modalitiesCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A";
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
