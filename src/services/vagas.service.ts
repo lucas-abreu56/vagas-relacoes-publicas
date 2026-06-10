@@ -35,6 +35,8 @@ export const parseVagas = async (): Promise<DashboardData | null> => {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': '*/*'
       },
       // Desabilita cache estático para sempre buscar dados novos, opcionalmente pode ser revalidado a cada X segundos
       next: { revalidate: 60 }
